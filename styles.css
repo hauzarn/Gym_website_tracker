@@ -1,0 +1,100 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212; /* Darker matte black background */
+    color: #E0E0E0; /* Light grey text for readability */
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #FF3C00; /* Bright red color for the title */
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+form {
+    margin-bottom: 20px;
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+    padding: 20px;
+    background-color: #1E1E1E; /* Slightly lighter matte black */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    color: #FF3C00; /* Red labels */
+}
+
+input, select {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #333333; /* Dark grey input background */
+    border: 1px solid #FF3C00; /* Red border */
+    border-radius: 5px;
+    color: #FFFFFF; /* White text */
+    font-size: 16px;
+}
+
+input[type="text"], input[type="number"], input[type="date"] {
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus {
+    border-color: #FF5733; /* Lighter red on focus */
+    outline: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #1E1E1E; /* Dark grey table background */
+    color: #FFFFFF;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #333333; /* Darker grey for table headers */
+    color: #FF3C00; /* Red text for headers */
+    font-weight: 700;
+}
+
+tr:nth-child(even) {
+    background-color: #2A2A2A; /* Slightly lighter grey for even rows */
+}
+
+button {
+    display: block;
+    margin: 20px auto 0 auto;
+    padding: 15px 30px;
+    background-color: #FF3C00; /* Red button */
+    border: none;
+    color: #FFFFFF; /* White text */
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #FF5733; /* Lighter red on hover */
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #E04000; /* Darker red on active */
+    transform: scale(1);
+}
