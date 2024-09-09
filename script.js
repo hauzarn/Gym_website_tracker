@@ -1,72 +1,73 @@
-document.addEventListener('DOMContentLoaded', (event) => {
-    loadFormData();
+document.getElementById('exerciseForm').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-    document.getElementById('exercise-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        saveFormData();
-        alert('Exercise data saved!');
-    });
+    const day = document.getElementById('day').value;
+    let exercise = document.getElementById('exercise').value;
+    const newExerciseInput = document.getElementById('newExercise');
+    if (exercise === 'Add New Exercise') {
+        exercise = newExerciseInput.value;
+        addNewExerciseOption(exercise);
+        newExerciseInput.style.display = 'none';
+        newExerciseInput.value = '';
+    }
+    const weight = document.getElementById('weight').value;
+    const reps = document.getElementById('reps').value;
+    const sets = document.getElementById('sets').value;
 
-    document.getElementById('clear-btn').addEventListener('click', function() {
-        clearFormData();
-        alert('Form cleared!');
-    });
+    const table = document.getElementById('exerciseTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
 
-    document.getElementById('export-btn').addEventListener('click', function() {
-        exportToExcel();
-    });
+    const cell1 = newRow.insertCell(0);
+    const cell2 = newRow.insertCell(1);
+    const cell3 = newRow.insertCell(2);
+    const cell4 = newRow.insertCell(3);
+    const cell5 = newRow.insertCell(4);
+
+    cell1.innerHTML = day;
+    cell2.innerHTML = exercise;
+    cell3.innerHTML = weight;
+    cell4.innerHTML = reps;
+    cell5.innerHTML = sets;
+
+    document.getElementById('exerciseForm').reset();
 });
 
-function saveFormData() {
-    const formData = {
-        date: document.getElementById('date').value,
-        exercise: document.getElementById('exercise').value,
-        weight: document.getElementById('weight').value,
-        reps: document.getElementById('reps').value,
-        sets: document.getElementById('sets').value,
-    };
-    localStorage.setItem('exerciseFormData', JSON.stringify(formData));
-}
-
-function loadFormData() {
-    const savedFormData = localStorage.getItem('exerciseFormData');
-    if (savedFormData) {
-        const formData = JSON.parse(savedFormData);
-        document.getElementById('date').value = formData.date;
-        document.getElementById('exercise').value = formData.exercise;
-        document.getElementById('weight').value = formData.weight;
-        document.getElementById('reps').value = formData.reps;
-        document.getElementById('sets').value = formData.sets;
-    }
-}
-
-function clearFormData() {
-    localStorage.removeItem('exerciseFormData');
-    document.getElementById('exercise-form').reset();
-}
-
-function exportToExcel() {
-    const savedFormData = localStorage.getItem('exerciseFormData');
-    if (!savedFormData) {
-        alert('No data to export.');
-        return;
+document.getElementById('exportBtn').addEventListener('click', function () {
+    const table = document.getElementById('exerciseTable');
+    let csv = [];
+    for (let i = 0; i < table.rows.length; i++) {
+        let row = [], cols = table.rows[i].querySelectorAll('td, th');
+        for (let j = 0; j < cols.length; j++) {
+            row.push(cols[j].innerText);
+        }
+        csv.push(row.join(','));
     }
 
-    const formData = JSON.parse(savedFormData);
-    const csvData = [
-        ['Date', 'Exercise', 'Weight (kg)', 'Reps', 'Sets'],
-        [formData.date, formData.exercise, formData.weight, formData.reps, formData.sets]
-    ];
+    const csvString = csv.join('\n');
+    const downloadLink = document.createElement('a');
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.download = 'gym_exercises.csv';
 
-    let csvContent = "data:text/csv;charset=utf-8," 
-        + csvData.map(e => e.join(",")).join("\n");
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+});
 
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "exercise_data.csv");
-    document.body.appendChild(link); // Required for FF
+document.getElementById('exercise').addEventListener('change', function () {
+    const newExerciseInput = document.getElementById('newExercise');
+    if (this.value === 'Add New Exercise') {
+        newExerciseInput.style.display = 'block';
+    } else {
+        newExerciseInput.style.display = 'none';
+    }
+});
 
-    link.click();
-    document.body.removeChild(link);
+function addNewExerciseOption(exercise) {
+    const select = document.getElementById('exercise');
+    const newOption = document.createElement('option');
+    newOption.value = exercise;
+    newOption.text = exercise;
+    select.add(newOption, select.options[select.options.length - 1]);
 }
