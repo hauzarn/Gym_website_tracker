@@ -84,7 +84,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   // Upload file to Google Drive
   const fileMetadata = {
     name: req.file.originalname,
-    parents: ['Gym_tracker_data'] // To a specific folder in my Google drive
+    parents: ['1xkNi6q_cmanQTQ8hVCAq-QuZTyTvUb5c?usp=sharing'] // To a specific folder in my Google drive
     
   };
 
